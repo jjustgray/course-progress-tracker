@@ -1,0 +1,33 @@
+services:
+  database:
+    image: postgres:16-alpine
+    container_name: course_tracker_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: courses_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: course_tracker_backend
+    ports:
+      - "4000:4000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@database:5432/courses_db
+    depends_on:
+      - database
+
+  frontend:
+    build: ./frontend
+    container_name: course_tracker_frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
