@@ -4,6 +4,7 @@
 ## How to run the project
 ```bash
 docker compose up --build
+```
 
 ## Technologies used
 Frontend: React + TypeScript + Tailwind CSS (bundled via Vite)
